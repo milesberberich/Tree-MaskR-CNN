@@ -10,5 +10,5 @@ A [Mask R-CNN](https://arxiv.org/abs/1703.06870) was used to perform the instanc
 #### Backbone
 [ResNet34](https://arxiv.org/pdf/1512.03385) was used as the backbone. [Pretrained weights](https://download.pytorch.org/models/resnet34-b627a593.pth) were downloaded using Pytorch.
 ResNet uses skip connections to overcome the "vanishing gradient". 
-A Feature Pyramide Network (FPN) is used as well. The FPN creates a multiscale feature map. This is usefull to detect objects (in this case trees) of all sizes.
-####
+A Feature Pyramide Network (FPN) to create a multiscale feature map. This is usefull to detect objects (in this case trees) of all sizes.
+
