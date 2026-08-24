@@ -26,7 +26,7 @@ All images were used in the original 1024x1024 format.
 #### Learning Rate (LR)
 A learning rate scheduler was used, which halves the LR if the validation loss did not decrease in two consecutive epochs. The inital LR was 0.0001.
 
-#### General Hyperparamters
+#### General Hyperparameters
 
 A batch size of 4 and a weight decay of 0.01 was used.
 
@@ -34,4 +34,10 @@ A batch size of 4 and a weight decay of 0.01 was used.
 Because of the already large dataset, only a simple reflection augmentation was used (horizonatlly and vertically) using `torch.flip`.
 #### Optimizer
 [AdamW](https://arxiv.org/abs/1711.05101) optimizer was used.
+
+## Results
+
+#### Accuracy Assessment 
+For each segmented tree, the Intersection over Union (IoU) was calculated. As in [similar papers](https://doi.org/10.3390/rs12081288), each tree with an IoU < 0.5 was regarded as a true positive. 
+Based on this definition, regular metrics as overall accuracy, recall, precision and f1-score were calculated.
 
