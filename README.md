@@ -7,6 +7,7 @@ The [BamForests](https://www.mdpi.com/2072-4292/16/11/1935) was used as training
 It covers deciduous, mixed and coniferous forests at four different sites. Three of them will be used for training, validation and testing.
 ## Model architecture
 A [Mask R-CNN](https://arxiv.org/abs/1703.06870) was used to perform the instance segmentation. Mask R-CNN is an extension of Faster R-CNN. While Faster R-CNN is limited to object detection (bounding box), Mask R-CNN adds a branch for an object mask (instance segmentation).
+![Model architecture](plots/architecture.PNG)
 #### Backbone
 [ResNet34](https://arxiv.org/pdf/1512.03385) was used as the backbone. [Pretrained weights](https://download.pytorch.org/models/resnet34-b627a593.pth) were downloaded using Pytorch.
 ResNet uses skip connections to overcome the "vanishing gradient". 
