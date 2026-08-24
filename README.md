@@ -37,7 +37,10 @@ Because of the already large dataset, only a simple reflection augmentation was 
 
 ## Results
 
-#### Accuracy Assessment 
+#### Accuracy metrics 
 For each segmented tree, the Intersection over Union (IoU) was calculated. As in [similar papers](https://doi.org/10.3390/rs12081288), each tree with an IoU < 0.5 was regarded as a true positive. 
 Based on this definition, regular metrics as overall accuracy, recall, precision and f1-score were calculated.
 
+#### Examples
+
+## Sources
