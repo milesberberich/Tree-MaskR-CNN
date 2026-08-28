@@ -60,11 +60,11 @@ These metrics slightly outperform the results from this [paper](https://doi.org/
 
 #### Examples
 
-![Model predictions](plots/pred1.PNG)
-![Model predictions](plots/pred2.PNG)
-![Model predictions](plots/pred3.PNG)
-![Model predictions](plots/pred4.PNG)
-![Model predictions](plots/pred5.PNG)
-![Model predictions](plots/pred6.PNG)
+![Model predictions](plots/preds1.PNG)
+![Model predictions](plots/preds2.PNG)
+![Model predictions](plots/preds3.PNG)
+![Model predictions](plots/preds4.PNG)
+![Model predictions](plots/preds5.PNG)
+![Model predictions](plots/preds6.PNG)
 
 ## Sources
