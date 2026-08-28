@@ -40,16 +40,26 @@ These Augmentations where implemented randomly:
 - changes in contrast (45% chance)
 - Gaussian blur with a kernel-size of 3 (35%)
 - Random Resize with bilinear interpolation (35%)
-- 
+
 #### Optimizer
 [AdamW](https://arxiv.org/abs/1711.05101) optimizer was used.
 
 ## Results
 
 #### Accuracy metrics 
-For each segmented tree, the Intersection over Union (IoU) was calculated. As in [similar papers](https://doi.org/10.3390/rs12081288), each tree with an IoU < 0.5 was regarded as a true positive. 
-Based on this definition, regular metrics as overall accuracy, recall, precision and f1-score were calculated.
+For each segmented tree, the Intersection over Union (IoU) was calculated. As in [similar papers](https://doi.org/10.1002/rse2.332), each tree with an IoU < 0.5 was regarded as a true positive. 
+Based on this definition, regular metrics as overall accuracy, recall, precision and f1-score were calculated:
+
+Accuracy: 0.525 
+F1 Score: 0.688
+Precision: 0.637
+Recall: 0.749
+
+The models classification errors are mostly false positives.
+These metrics slightly outperform the results from this [paper](https://doi.org/10.1002/rse2.332).
 
 #### Examples
+
+
 
 ## Sources
