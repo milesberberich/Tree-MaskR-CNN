@@ -62,9 +62,8 @@ These metrics slightly outperform the results from this [paper](https://doi.org/
 
 ![Model predictions](plots/preds1.png)
 ![Model predictions](plots/preds2.png)
-![Model predictions](plots/preds3.png)
-![Model predictions](plots/preds4.png)
 ![Model predictions](plots/preds5.png)
 ![Model predictions](plots/preds6.png)
 
+Most problems seem to occur when the model recognizes old/dead trees as vital trees or in general just labels more trees.
 ## Sources
