@@ -1,5 +1,5 @@
 # Tree Crown Instance Segementation using a Mask R-CNN
-Final assignemt for the AI-class by Konstantin Müller. Tree crown segmenation using a Mask R-CNN and BAMforest.
+Final assignemt for the AI-class by Konstantin Müller. Tree crown instance segmenation using a Mask R-CNN and BAMforest.
 
 ## Introduction
 Tree crown segmentation is a basic step in tree-level analysis, enabling tasks such as individual species classification, crown metric extraction and tree counting.
@@ -24,14 +24,23 @@ Both of the *Tretzendorf* and the *Stadtwald* sites were used to train the model
 All images were used in the original 1024x1024 format.
 
 #### Learning Rate (LR)
-A learning rate scheduler was used, which halves the LR if the validation loss did not decrease in two consecutive epochs. The inital LR was 0.0001.
+A learning rate scheduler was used, which halves the LR if the validation loss did not decrease in three consecutive epochs. The inital LR was 0.0003.
 
 #### Further Hyperparameters
 
-A batch size of 4 and a weight decay of 0.01 was used.
+A batch size of 4 was used, but gradient accumulation lead to an effective batch size of 16.
+A weight decay of 0.001 was used.
 
 #### Augmentation
-Because of the already large dataset, only a simple random reflection augmentation was used (horizonatlly and vertically) using `torch.flip`. 
+These Augmentations where implemented randomly:
+
+- vertical reflection with `torch.flip` (50% chance)
+- vertical reflection with `torch.flip` (50% chance)
+- rotation by 90°, 180° or 270° (25% chance each)
+- changes in contrast (45% chance)
+- Gaussian blur with a kernel-size of 3 (35%)
+- Random Resize with bilinear interpolation (35%)
+- 
 #### Optimizer
 [AdamW](https://arxiv.org/abs/1711.05101) optimizer was used.
 
