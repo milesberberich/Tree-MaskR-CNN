@@ -7,7 +7,7 @@ Final assignment for the AI-class by Konstantin Müller. Tree crown instance seg
 - _downloadBamforest.py_: A script to download the dataset to drive
 - _Instance_Tree_Segmentation.ipynb_: The main script to train and test the model. Includes several option to change data and hyperparameters. Its also possible to load an already trained model to test it or to continue a disrupted training process.
 - _presentation.pdf_: A presentation giving an overview and context to the work done.
-- _Data&Model_: Contains the test_data_snippet and the model itself neccessary to run the instance_segmantation_example.py. The test data was randomly selected.
+- _mini_test.zip_: Contains the test_data_snippet neccessary to run the instance_segmantation_example.py. The test data was randomly selected.
 - _executeModel_: As small working example of an segmentation by the trained model. Runs on the Data&Model-file.
 
 ## Introduction
