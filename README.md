@@ -1,8 +1,9 @@
 # Tree Crown Instance Segementation using a Mask R-CNN
-Final assignemt for the AI-class by Konstantin Müller. Tree crown instance segmenation using a Mask R-CNN and BAMforest.
+Final assignment for the AI-class by Konstantin Müller. Tree crown instance segmenation using a Mask R-CNN and BAMforest.
 
 ## Introduction
 Tree crown segmentation is a basic step in tree-level analysis, enabling tasks such as individual species classification, crown metric extraction and tree counting.
+
 
 ## Training Data
 The [BamForests](https://www.mdpi.com/2072-4292/16/11/1935) was used as training data. The dataset consists of 27,160 labeled trees in total at a ground sampling distance of 1.61-1.81 cm.
@@ -66,4 +67,5 @@ These metrics slightly outperform the results from this [paper](https://doi.org/
 ![Model predictions](plots/preds6.png)
 
 Most problems seem to occur when the model recognizes old/dead trees as vital trees or in general just labels more trees.
+
 ## Sources
