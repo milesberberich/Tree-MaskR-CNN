@@ -1,77 +1,80 @@
-# DOWNLOAD LIBRARIES ############################################
-
 import urllib.request
 import zipfile
 import os
-
-# DOWNLOAD MODEL  ############################################
-
-url_model = "https://github.com/milesberberich/TreeCrown-InstanceSegementation/releases/download/v1.0/Tree_segmentation_model.zip"
-
-zip_path = "my_model.zip" # change the paths
-extract_dir = "model_weights" # change the paths
-
-urllib.request.urlretrieve(url_model, zip_path)
-os.makedirs(extract_dir, exist_ok=True)
-
-with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-    zip_ref.extractall(extract_dir)
-
-# DOWNLOAD DATA  ############################################
-
-url_data = "https://github.com/milesberberich/TreeCrown-InstanceSegementation/blob/main/mini_test_set.zip"
-
-urllib.request.urlretrieve(url_data, "test_data.zip")
-
-with zipfile.ZipFile("test_data.zip", 'r') as zip_ref:
-    zip_ref.extractall("test_data")
-
-
 import torch
+import numpy as np
 import matplotlib.pyplot as plt
 from skimage import io
+from pycocotools.coco import COCO
 from torchvision.models.detection import MaskRCNN
 from torchvision.models.detection.backbone_utils import resnet_fpn_backbone
 from torchvision.utils import draw_segmentation_masks
 
-# 1. Initialize the exact architecture used in training
-backbone = resnet_fpn_backbone(backbone_name="resnet34", weights=None)[cite: 1]
-model = MaskRCNN(backbone, num_classes=2)[cite: 1]
+# 1. DOWNLOAD WEIGHTS
+urllib.request.urlretrieve(
+    "https://github.com/milesberberich/Tree-MaskR-CNN/releases/download/v1.0/Tree_segmentation_model.zip",
+    "my_model.zip")
+with zipfile.ZipFile("my_model.zip", 'r') as z:
+    z.extractall("model_weights")
 
-# Load weights (extracting 'model_state_dict' from your saved checkpoint)
-ckpt = torch.load("model_weights/best_model.pth", map_location='cpu', weights_only=True)
-model.load_state_dict(ckpt['model_state_dict'])[cite: 1]
+urllib.request.urlretrieve("https://github.com/milesberberich/Tree-MaskR-CNN/raw/main/mini_test_set.zip",
+                           "test_data.zip")
+with zipfile.ZipFile("test_data.zip", 'r') as z:
+    z.extractall("test_data")
+
+# 2. PATHS
+base_dir = "test_data/coco1024/test2023/Test-Set-2"
+json_path = "test_data/coco1024/annotations/instances_tree_TestSet22023.json"
+
+# 3. BUILD MODEL
+model = MaskRCNN(resnet_fpn_backbone(backbone_name="resnet34", weights=None), num_classes=2)
+model.load_state_dict(
+    torch.load("model_weights/Tree_segmentation_model.pth", map_location='cpu', weights_only=True)['model_state_dict'])
 model.eval()
 
-# 2. Load a TIFF test image
-img_path = "tiff_data/sample_tree_image.tiff"
-img_arr = io.imread(img_path)[:, :, :3]  # Extract first 3 bands for consistency[cite: 1]
-img_tensor = torch.as_tensor(img_arr.transpose(2, 0, 1), dtype=torch.float32) / 255.0[cite: 1]
+# 4. LOAD COCO & SETUP PLOT
+coco = COCO(json_path)
+valid_files = [f for f in os.listdir(base_dir) if f.endswith('.tif')]
+n_imgs = len(valid_files)
 
-# 3. Run Inference
-with torch.no_grad():
-    prediction = model([img_tensor])[0]
+fig, axs = plt.subplots(n_imgs, 3, figsize=(15, 5 * n_imgs), squeeze=False)
 
-# Filter masks by confidence score (e.g., > 50% certainty)
-score_threshold = 0.5
-pred_masks = prediction['masks'][prediction['scores'] > score_threshold] > 0.5
+# 5. RUN MODEL & PLOT PREDICTIONS
+for idx, filename in enumerate(valid_files):
+    # Load test image examples
+    img_path = f"{base_dir}/{filename}"
+    img_arr = io.imread(img_path)[:, :, :3]
+    img_tensor = torch.as_tensor(img_arr.transpose(2, 0, 1), dtype=torch.float32) / 255.0
+    img_uint8 = (img_tensor * 255).to(torch.uint8)
 
-# 4. Plot Results
-# Convert image to uint8 format required by torchvision's drawing utilities
-img_uint8 = (img_tensor * 255).to(torch.uint8)
-pred_viz = draw_segmentation_masks(img_uint8, pred_masks.squeeze(1), alpha=0.5, colors="red")
+    with torch.no_grad():
+        pred = model([img_tensor])[0]
 
-fig, axs = plt.subplots(1, 2, figsize=(12, 6))
+    pred_masks = pred['masks'][pred['scores'] > 0.5] > 0.5
+    pred_masks_flat = pred_masks.any(dim=0, keepdim=True).squeeze(1)
+    pred_viz = draw_segmentation_masks(img_uint8, pred_masks_flat, alpha=0.5, colors="red")
 
-# Original Image (Use this as your visual ground truth baseline if COCO JSON is unloaded)
-axs[0].imshow(img_arr)
-axs[0].set_title("Original TIFF")
-axs[0].axis('off')
+    # Extract Ground Truth
+    img_id = next(k for k, v in coco.imgs.items() if v['file_name'] == filename)
+    ann_ids = coco.getAnnIds(imgIds=img_id)
+    gt_masks = [coco.annToMask(ann) for ann in coco.loadAnns(ann_ids)]
 
-# Model Predictions
-axs[1].imshow(pred_viz.permute(1, 2, 0).numpy())
-axs[1].set_title("Mask R-CNN Predicted Crowns")
-axs[1].axis('off')
+    # Flatten ground truth
+    gt_tensor_flat = torch.as_tensor(np.array(gt_masks), dtype=torch.bool).any(dim=0, keepdim=True)
+    gt_viz = draw_segmentation_masks(img_uint8, gt_tensor_flat, alpha=0.5, colors="blue")
+
+    # Plot
+    axs[idx, 0].imshow(img_arr)
+    axs[idx, 0].set_title(f"Original: {filename}")
+    axs[idx, 0].axis('off')
+
+    axs[idx, 1].imshow(gt_viz.permute(1, 2, 0).numpy())
+    axs[idx, 1].set_title("Ground Truth (Blue)")
+    axs[idx, 1].axis('off')
+
+    axs[idx, 2].imshow(pred_viz.permute(1, 2, 0).numpy())
+    axs[idx, 2].set_title("Predictions (Red)")
+    axs[idx, 2].axis('off')
 
 plt.tight_layout()
 plt.show()
