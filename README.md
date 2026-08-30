@@ -28,6 +28,7 @@ It covers deciduous, mixed and coniferous forests at four different sites. Three
 ## Model architecture
 A [Mask R-CNN](https://arxiv.org/abs/1703.06870) [2] was used to perform the instance segmentation. Mask R-CNN is an extension of Faster R-CNN. While Faster R-CNN is limited to object detection (bounding box), Mask R-CNN adds a branch for an object mask (instance segmentation). 
 ![Model architecture](plots/architecture.PNG) 
+
 The architecture is often used to perform instance segmentation on tree crowns [3,4,5].
 
 #### Backbone
