@@ -16,6 +16,7 @@ Final assignment for the AI-class by Konstantin Müller. Tree crown instance seg
 - _useCNN.py_: As small working example of an segmentation by the trained model. Runs on the mini_test_set.zip-data. (runs locally)
 
 - _Release_: The actual model weights, called by useCNN.py.
+- 
 ## Introduction
 Tree crown segmentation is a basic step in tree-level analysis, enabling tasks such as individual species classification, crown metric extraction and tree counting.
 
@@ -26,7 +27,8 @@ It covers deciduous, mixed and coniferous forests at four different sites. Three
 
 ## Model architecture
 A [Mask R-CNN](https://arxiv.org/abs/1703.06870) [2] was used to perform the instance segmentation. Mask R-CNN is an extension of Faster R-CNN. While Faster R-CNN is limited to object detection (bounding box), Mask R-CNN adds a branch for an object mask (instance segmentation). 
-![Model architecture](plots/architecture.PNG) The architecture is often used to perform instance segmentation on tree crowns [3,4,5].
+![Model architecture](plots/architecture.PNG) 
+The architecture is often used to perform instance segmentation on tree crowns [3,4,5].
 
 #### Backbone
 [ResNet34](https://arxiv.org/pdf/1512.03385) [6] was used as the backbone. [Pretrained weights](https://download.pytorch.org/models/resnet34-b627a593.pth) were downloaded using Pytorch.
