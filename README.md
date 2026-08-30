@@ -68,6 +68,8 @@ These augmentations were used because they are regularly used in tree crown segm
 
 ## Results
 
+The model reached is optimal state after 22 epochs. The learning curves can be viewed [here](https://github.com/milesberberich/Tree-MaskR-CNN/blob/main/plots/learningcurves.png).
+
 #### Accuracy metrics 
 For each segmented tree, the Intersection over Union (IoU) was calculated. As in [similar papers](https://doi.org/10.1002/rse2.332), each tree with an IoU < 0.5 was regarded as a true positive. 
 Based on this definition, regular metrics as overall accuracy, recall, precision and f1-score were calculated:
