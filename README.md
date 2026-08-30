@@ -21,17 +21,17 @@ Tree crown segmentation is a basic step in tree-level analysis, enabling tasks s
 
 
 ## Training Data
-The [BamForests](https://www.mdpi.com/2072-4292/16/11/1935) was used as training data. The dataset consists of 27,160 labeled trees in total at a ground sampling distance of 1.61-1.81 cm.
+The [BamForests](https://www.mdpi.com/2072-4292/16/11/1935) [1] was used as training data. The dataset consists of 27,160 labeled trees in total at a ground sampling distance of 1.61-1.81 cm.
 It covers deciduous, mixed and coniferous forests at four different sites. Three of them will be used for training, validation and testing.
 
 ## Model architecture
-A [Mask R-CNN](https://arxiv.org/abs/1703.06870) was used to perform the instance segmentation. Mask R-CNN is an extension of Faster R-CNN. While Faster R-CNN is limited to object detection (bounding box), Mask R-CNN adds a branch for an object mask (instance segmentation). 
-![Model architecture](plots/architecture.PNG)
+A [Mask R-CNN](https://arxiv.org/abs/1703.06870) [2] was used to perform the instance segmentation. Mask R-CNN is an extension of Faster R-CNN. While Faster R-CNN is limited to object detection (bounding box), Mask R-CNN adds a branch for an object mask (instance segmentation). 
+![Model architecture](plots/architecture.PNG) The architecture is often used to perform instance segmentation on tree crowns [3,4,5].
 
 #### Backbone
-[ResNet34](https://arxiv.org/pdf/1512.03385) was used as the backbone. [Pretrained weights](https://download.pytorch.org/models/resnet34-b627a593.pth) were downloaded using Pytorch.
+[ResNet34](https://arxiv.org/pdf/1512.03385) [6] was used as the backbone. [Pretrained weights](https://download.pytorch.org/models/resnet34-b627a593.pth) were downloaded using Pytorch.
 ResNet uses skip connections to overcome the "vanishing gradient". 
-A Feature Pyramide Network (FPN) to create a multiscale feature map. This is usefull to detect objects (in this case trees) of all sizes.
+A Feature Pyramide Network (FPN) [7] to create a multiscale feature map. This is usefull to detect objects (in this case trees) of all sizes.
 
 ## Methodology
 #### Data
@@ -48,6 +48,7 @@ A batch size of 4 was used, but gradient accumulation lead to an effective batch
 A weight decay of 0.001 was used.
 
 #### Augmentation
+
 These Augmentations where implemented randomly:
 
 - vertical reflection with `torch.flip` (50% chance)
@@ -57,8 +58,10 @@ These Augmentations where implemented randomly:
 - Gaussian blur with a kernel-size of 3 (35%)
 - Random Resize with bilinear interpolation (35%)
 
+These augmentations where used because they are regulary used in tree crown segmenations [8].
+
 #### Optimizer
-[AdamW](https://arxiv.org/abs/1711.05101) optimizer was used.
+[AdamW](https://arxiv.org/abs/1711.05101) [9] optimizer was used.
 
 ## Results
 
@@ -83,6 +86,34 @@ These metrics slightly outperform the results from this [paper](https://doi.org/
 ![Model predictions](plots/preds5.png)
 ![Model predictions](plots/preds6.png)
 
-Most problems seem to occur when the model labels old/dead trees.
+Most problems seem to occur when the model labels dead trees.
 
 ## Sources
+
+1. Troles J, Schmid U, Fan W, Tian J (2024)
+BAMFORESTS: Bamberg Benchmark Forest Dataset of Individual Tree Crowns in Very-High-Resolution UAV Images. Remote Sensing, 16(11):1935.
+
+2. He K, Gkioxari G, Dollár P, Girshick R (2017)
+Mask R-CNN. arXiv:1703.06870.
+
+3. Hao Z, Lin L, Post CJ, Mikhailova EA, Li M, Chen Y, et al. (2021)
+Automated tree-crown and height detection in a young forest plantation using mask region-based convolutional neural network (Mask R-CNN). ISPRS Journal of Photogrammetry and Remote Sensing, 178:112–123.
+
+4. Ball JGC, Hickman SHM, Jackson TD, Koay XJ, Hirst J, Jay W, et al. (2023)
+Accurate delineation of individual tree crowns in tropical forests from aerial RGB imagery using Mask R-CNN. Remote Sensing in Ecology and Conservation, 9(5):641–655.
+
+5. Braga JRG, Peripato V, Dalagnol R, Ferreira MP, Tarabalka Y, Aragão LEOC, et al. (2020)
+Tree Crown Delineation Algorithm Based on a Convolutional Neural Network. Remote Sensing, 12(8):1288.
+
+6. He K, Zhang X, Ren S, Sun J (2016)
+Deep Residual Learning for Image Recognition. CVPR, 770–778.
+
+7. Lin TY, Dollár P, Girshick R, He K, Hariharan B, Belongie S (2017)
+Feature Pyramid Networks for Object Detection. CVPR, 2117–2125.
+
+8. Zhao H, Morgenroth J, Pearse G, Schindler J (2023)
+A Systematic Review of Individual Tree Crown Detection and Delineation with Convolutional Neural Networks (CNN). Current Forestry Reports, 9:149–170.
+
+
+9. Loshchilov I, Hutter F (2019)
+Decoupled Weight Decay Regularization. ICLR.
