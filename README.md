@@ -1,5 +1,5 @@
-# Tree Crown Instance Segmentation using a Mask R-CNN
-Final assignment for the AI-class by Konstantin Müller. Tree crown instance segmentation using a Mask R-CNN and BAMforest.
+# Tree Crown Instance Segementation using a Mask R-CNN
+Final assignment for the AI-class by Konstantin Müller. Tree crown instance segmenation using a Mask R-CNN and BAMforest.
 
 ## Content
 
@@ -11,9 +11,9 @@ Final assignment for the AI-class by Konstantin Müller. Tree crown instance seg
   
 - _presentation.pdf_: A presentation giving an overview and context to the work done.
   
-- _mini_test.zip_: Contains the test_data_snippet necessary to run the instance_segmentation
+- _mini_test.zip_: Contains the test_data_snippet neccessary to run the instance_segmantation
     
-- _useCNN.py_: A small working example of an segmentation by the trained model. Runs on the mini_test_set.zip-data. (runs locally)
+- _useCNN.py_: As small working example of an segmentation by the trained model. Runs on the mini_test_set.zip-data. (runs locally)
 
 - _Release_: The actual model weights, called by useCNN.py.
 ## Introduction
@@ -31,7 +31,7 @@ A [Mask R-CNN](https://arxiv.org/abs/1703.06870) [2] was used to perform the ins
 #### Backbone
 [ResNet34](https://arxiv.org/pdf/1512.03385) [6] was used as the backbone. [Pretrained weights](https://download.pytorch.org/models/resnet34-b627a593.pth) were downloaded using Pytorch.
 ResNet uses skip connections to overcome the "vanishing gradient". 
-A Feature Pyramid Network (FPN) [7] to create a multiscale feature map. This is useful to detect objects (in this case trees) of all sizes.
+A Feature Pyramide Network (FPN) [7] to create a multiscale feature map. This is usefull to detect objects (in this case trees) of all sizes.
 
 ## Methodology
 #### Data
@@ -40,7 +40,7 @@ Both of the *Tretzendorf* and the *Stadtwald* sites were used to train the model
 All images were used in the original 1024x1024 format.
 
 #### Learning Rate (LR)
-A learning rate scheduler was used, which halves the LR if the validation loss did not decrease in three consecutive epochs. The initial LR was 0.0003.
+A learning rate scheduler was used, which halves the LR if the validation loss did not decrease in three consecutive epochs. The inital LR was 0.0003.
 
 #### Further Hyperparameters
 
@@ -49,16 +49,16 @@ A weight decay of 0.001 was used.
 
 #### Augmentation
 
-These Augmentations were implemented randomly:
+These Augmentations where implemented randomly:
 
 - vertical reflection with `torch.flip` (50% chance)
-- horizontal reflection with `torch.flip` (50% chance)
+- vertical reflection with `torch.flip` (50% chance)
 - rotation by 90°, 180° or 270° (25% chance each)
 - changes in contrast (45% chance)
 - Gaussian blur with a kernel-size of 3 (35%)
 - Random Resize with bilinear interpolation (35%)
 
-These augmentations where used because they are regularly used in tree crown segmentations [8].
+These augmentations where used because they are regulary used in tree crown segmenations [8].
 
 #### Optimizer
 [AdamW](https://arxiv.org/abs/1711.05101) [9] optimizer was used.
@@ -66,7 +66,7 @@ These augmentations where used because they are regularly used in tree crown seg
 ## Results
 
 #### Accuracy metrics 
-For each segmented tree, the Intersection over Union (IoU) was calculated. As in [similar papers](https://doi.org/10.1002/rse2.332), each tree with an IoU > 0.5 was regarded as a true positive. 
+For each segmented tree, the Intersection over Union (IoU) was calculated. As in [similar papers](https://doi.org/10.1002/rse2.332), each tree with an IoU < 0.5 was regarded as a true positive. 
 Based on this definition, regular metrics as overall accuracy, recall, precision and f1-score were calculated:
 
 Accuracy: 0.525 
@@ -75,7 +75,7 @@ Precision: 0.637
 Recall: 0.749
 
 The models classification errors are mostly false positives.
-These metrics slightly outperform the results from this [paper](https://doi.org/10.1002/rse2.332) which also uses Mask R-CNN in a tropical forest to segment tree crowns.
+These metrics slightly outperform the results from this [paper](https://doi.org/10.1002/rse2.332) which also uses Mask R-CNN in a tropical forest to segement tree crowns.
 
 #### Examples
 
