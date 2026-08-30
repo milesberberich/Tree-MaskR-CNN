@@ -16,7 +16,7 @@ Final assignment for the AI-class by Konstantin Müller. Tree crown instance seg
 - _useCNN.py_: As small working example of an segmentation by the trained model. Runs on the mini_test_set.zip-data. (runs locally)
 
 - _Release_: The actual model weights, called by useCNN.py.
-- 
+
 ## Introduction
 Tree crown segmentation is a basic step in tree-level analysis, enabling tasks such as individual species classification, crown metric extraction and tree counting.
 
