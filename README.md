@@ -75,7 +75,7 @@ Precision: 0.637
 Recall: 0.749
 
 The models classification errors are mostly false positives.
-These metrics slightly outperform the results from this [paper](https://doi.org/10.1002/rse2.332) which also uses Mask R-CNN in a tropical forest to segement tree crowns.
+These metrics slightly outperform the results from this [paper](https://doi.org/10.1002/rse2.332) [4] which also uses Mask R-CNN in a tropical forest to segement tree crowns.
 
 #### Examples
 
